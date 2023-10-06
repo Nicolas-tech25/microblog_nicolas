@@ -29,7 +29,7 @@ require_once "../inc/cabecalho-admin.php";
             </a>
         </div>
     </div>
-</article>
+</article> 
 
 
 <?php 
