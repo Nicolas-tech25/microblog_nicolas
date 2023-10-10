@@ -1,9 +1,8 @@
 <?php
-
 namespace Microblog;
 use PDO, Exception;
 
-class Usuario{
+class Usuario {
     private int $id;
     private string $nome;
     private string $email;
@@ -18,21 +17,27 @@ class Usuario{
 
     /* Métodos para rotinas de crud no Banco */
     public function inserir():void {
-        $sql = "INSERT INTO usuario(nome, email, senha, tipo) VALUES (:nome,:email,:senha,:tipo)";
+        $sql = "INSERT INTO usuarios(nome, email, senha, tipo) VALUES (:nome,:email,:senha,:tipo)";
 
         try {
             $consulta = $this->conexao->prepare($sql);
-            $consulta->bindValue(":nome ", $this->nome,PDO::PARAM_STR);
-            $consulta->bindValue(":email ", $this->email,PDO::PARAM_STR);
-            $consulta->bindValue(":senha ", $this->senha,PDO::PARAM_STR);
-            $consulta->bindValue(":tipo ", $this->tipo,PDO::PARAM_STR);
+            $consulta->bindValue(":nome", $this->nome,PDO::PARAM_STR);
+            $consulta->bindValue(":email", $this->email,PDO::PARAM_STR);
+            $consulta->bindValue(":senha", $this->senha,PDO::PARAM_STR);
+            $consulta->bindValue(":tipo", $this->tipo,PDO::PARAM_STR);
             $consulta->execute();
         } catch (Exception $erro) {
             die("Erro ao inserir usuário: ".$erro->getMessage());
         }
     }
 
+    /* Métodods para codificação e comparação da senha */
+    public function codificaSenha(string $senha):string{
+        return password_hash($senha, PASSWORD_DEFAULT);
+    }
 
+
+    /*  GETTERS E SETTERS */
     public function getId(): int
     {
         return $this->id;
@@ -40,7 +45,7 @@ class Usuario{
 
     public function setId(int $id): self
     {
-        $this->id = $id;
+        $this->id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
 
         return $this;
     }
@@ -52,7 +57,7 @@ class Usuario{
 
     public function setNome(string $nome): self
     {
-        $this->nome = $nome;
+        $this->nome = filter_var($nome, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
@@ -65,7 +70,7 @@ class Usuario{
 
     public function setEmail(string $email): self
     {
-        $this->email = $email;
+        $this->email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
         return $this;
     }
@@ -77,7 +82,7 @@ class Usuario{
 
     public function setSenha(string $senha): self
     {
-        $this->senha = $senha;
+        $this->senha = filter_var($senha, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
@@ -89,7 +94,7 @@ class Usuario{
 
     public function setTipo(string $tipo): self
     {
-        $this->tipo = $tipo;
+        $this->tipo = filter_var($tipo, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
