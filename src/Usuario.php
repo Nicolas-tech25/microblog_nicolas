@@ -36,6 +36,22 @@ class Usuario {
         return password_hash($senha, PASSWORD_DEFAULT);
     }
 
+    /* Método ler */
+    public function lerUsuario():array {
+        $sql = "SELECT * FROM usuarios
+        ORDER BY nome";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro ao carregar produtos: ".$erro->getMessage());
+        }
+
+        return $resultado;
+    }
+
 
     /*  GETTERS E SETTERS */
     public function getId(): int
