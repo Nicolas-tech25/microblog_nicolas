@@ -1,5 +1,22 @@
 <?php 
+require_once "../vendor/autoload.php";
 require_once "../inc/cabecalho-admin.php";
+
+use Microblog\Usuario;
+
+$usuario = new Usuario;
+
+$usuario->setId($_GET['id']);
+$DadosUsuario = $usuario->listarUm();
+
+// $usuario->setId($_GET['id']);
+
+if(isset($_POST['atualizar'])){
+    $usuario->setNome($_POST['nome']);
+    $usuario->setEmail($_POST['email']);
+    $usuario->setTipo($_POST['tipo']);
+    header("location:visualizar.php");
+}
 ?>
 
 
@@ -13,13 +30,13 @@ require_once "../inc/cabecalho-admin.php";
 		<form class="mx-auto w-75" action="" method="post" id="form-atualizar" name="form-atualizar">
 
 			<div class="mb-3">
-				<label class="form-label" for="nome">Nome:</label>
-				<input class="form-control" type="text" id="nome" name="nome" required>
+				<label class="form-label" for="nome">Nome: </label>
+				<input class="form-control" value="<?=$DadosUsuario["nome"]?>" type="text" id="nome" name="nome" required>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label" for="email">E-mail:</label>
-				<input class="form-control" type="email" id="email" name="email" required>
+				<input class="form-control" value="<?=$DadosUsuario["email"]?>" type="email" id="email" name="email" required>
 			</div>
 
 			<div class="mb-3">
@@ -29,10 +46,15 @@ require_once "../inc/cabecalho-admin.php";
 
 			<div class="mb-3">
 				<label class="form-label" for="tipo">Tipo:</label>
-				<select class="form-select" name="tipo" id="tipo" required>
+				<select class="form-select" value="<?=$DadosUsuario["tipo"]?>" name="tipo" id="tipo" required>
 					<option value=""></option>
-					<option value="editor">Editor</option>
-					<option value="admin">Administrador</option>
+
+					<option <?php if($DadosUsuario['tipo'] === 'editor') echo "selected";  ?>
+					value="<?=$DadosUsuario["tipo"]?>">Editor</option>
+					
+					<option <?php if($DadosUsuario['tipo'] === 'editor') echo "selected";  ?>
+					 value="<?=$DadosUsuario["tipo"]?>">Administrador</option>
+					 
 				</select>
 			</div>
 			

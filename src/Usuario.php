@@ -53,17 +53,37 @@ class Usuario {
     }
 
     // SELECT usuário
-    public function listarUm():array{
+    public function listarUm():array {
         $sql = "SELECT * FROM usuarios WHERE id = :id";
         try {
             $consulta = $this->conexao->prepare($sql);
-            $consulta = bindValue(":id",$this->id,PDO::PARAM_INT);
+            $consulta->bindValue(":id",$this->id,PDO::PARAM_INT);
             $consulta->execute();
             $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $erro) {
             die("Erro ao carregar dados: ".$erro->getMessage());
         }
+        return $resultado;
     }
+
+    // UPDATE usuario
+    public function atualizar():void {
+        $sql = "UPDATE usuarios SET nome = :nome, email = :email, senha = :senha, tipo = :tipo WHERE id = :id ";
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id",$this->id,PDO::PARAM_INT);
+            $consulta->bindValue(":nome",$this->nome,PDO::PARAM_STR);
+            $consulta->bindValue(":email",$this->email,PDO::PARAM_STR);
+            $consulta->bindValue(":senha",$this->senha,PDO::PARAM_STR);
+            $consulta->bindValue(":tipo",$this->tipo,PDO::PARAM_STR);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro ao atualizar dados: ".$erro->getMessage());
+        }
+        return $resultado;
+    }
+
 
 
     /*  GETTERS E SETTERS */
