@@ -36,6 +36,14 @@ class Usuario {
         return password_hash($senha, PASSWORD_DEFAULT);
     }
 
+    public function verificaSenha(string $senhaFormulario, string $senhaBanco):string {
+        if(password_verify($senhaFormulario, $senhaBanco)){
+            return $senhaBanco;
+        } else{
+            return $this->codificaSenha($senhaFormulario);
+        }
+    }
+
     /* Método ler */
     public function listar():array {
         $sql = "SELECT * FROM usuarios
@@ -68,7 +76,7 @@ class Usuario {
 
     // UPDATE usuario
     public function atualizar():void {
-        $sql = "UPDATE usuarios SET nome = :nome, email = :email, senha = :senha, tipo = :tipo WHERE id = :id ";
+        $sql = "UPDATE usuarios set nome = :nome, email = :email, senha = :senha, tipo = :tipo WHERE id = :id ";
         try {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(":id",$this->id,PDO::PARAM_INT);
@@ -81,9 +89,19 @@ class Usuario {
         } catch (Exception $erro) {
             die("Erro ao atualizar dados: ".$erro->getMessage());
         }
-        return $resultado;
     }
 
+    //Excluir usuario
+    public function excluir():void{
+        $sql = "DELETE FROM usuarios WHERE id = :id";
+        try {
+            $consulta = $this->conexao->prepare($sql);
+        $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+        $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro ao excluir: ".$erro->getMessage());
+        }
+    }
 
 
     /*  GETTERS E SETTERS */

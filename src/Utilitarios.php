@@ -7,4 +7,9 @@ abstract class Utilitarios{
         var_dump($dados);
         echo "</pre>";
     }
+    public function codificaSenha(string $senha):string {
+        return password_hash($senha, PASSWORD_DEFAULT);
+
+    }
+    
 }
