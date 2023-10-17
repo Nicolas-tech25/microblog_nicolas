@@ -103,6 +103,20 @@ class Usuario {
         }
     }
 
+    // Método Buscar
+    public function buscar():array | bool{
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":email", $this->email, PDO::PARAM_STR);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro ao excluir: ".$erro->getMessage());
+        }
+        return $resultado;
+    }
+
 
     /*  GETTERS E SETTERS */
     public function getId(): int
