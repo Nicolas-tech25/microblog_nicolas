@@ -112,7 +112,7 @@ class Usuario {
             $consulta->execute();
             $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $erro) {
-            die("Erro ao excluir: ".$erro->getMessage());
+            die("Erro ao buscar dados: ".$erro->getMessage());
         }
         return $resultado;
     }
