@@ -6,6 +6,7 @@ use Microblog\ControleDeAcesso;
 
 $sessao  = new ControleDeAcesso;
 $sessao->verificaAcesso();
+$sessao->verificaAcessoAdmin();
 
 $usuario = new Usuario;
 $usuario->setId($_GET['id']);

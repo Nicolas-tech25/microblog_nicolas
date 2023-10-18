@@ -3,6 +3,7 @@ require_once "../vendor/autoload.php";
 require_once "../inc/cabecalho-admin.php";
 
 use Microblog\Usuario;
+$sessao->verificaAcessoAdmin();
 
 /* Script para carregamento */
 $usuario = new Usuario;
