@@ -33,6 +33,11 @@ if(isset($_POST['atualizar'])){
     header("location:Usuarios.php");
 
 }
+
+/* Botão cancelar(besteira minha 🤓) */
+if(isset($_POST['cancelar'])){
+    header("location:categorias.php");
+}
 ?>
 
 
@@ -75,6 +80,9 @@ if(isset($_POST['atualizar'])){
 			</div>
 			
 			<button class="btn btn-primary" name="atualizar"><i class="bi bi-arrow-clockwise"></i> Atualizar</button>
+
+			<!-- Botão cancelar(besteira minha 🤓) -->
+			<button class="btn btn-danger" name="cancelar"><i class="bi bi-arrow-clockwise"></i> Cancelar</button>
 		</form>
 		
 	</article>

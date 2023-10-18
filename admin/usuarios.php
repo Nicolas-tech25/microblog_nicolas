@@ -67,6 +67,7 @@ $listaDeUsuario = $usuarios->listar();
 </div>
 
 
+
 <?php
 require_once "../inc/rodape-admin.php";
 ?>

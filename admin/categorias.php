@@ -1,5 +1,11 @@
 <?php 
 require_once "../inc/cabecalho-admin.php";
+
+use Microblog\Categoria;
+
+$sessao->verificaAcessoAdmin();
+$categoria = new Categoria;
+$listaDecategorias = $categoria->listar();
 ?>
 
 
@@ -7,7 +13,7 @@ require_once "../inc/cabecalho-admin.php";
 	<article class="col-12 bg-white rounded shadow my-1 py-4">
 		
 		<h2 class="text-center">
-		Categorias <span class="badge bg-dark">X</span>
+		Categorias <span class="badge bg-dark"><?=count($listaDecategorias)?></span>
 		</h2>
 
 		<p class="text-center mt-5">
@@ -26,29 +32,33 @@ require_once "../inc/cabecalho-admin.php";
 					</tr>
 				</thead>
 
+				<?php foreach($listaDecategorias as $itemcategoria){?>
 				<tbody>
 
 					<tr>
-						<td> Nome... </td>
+						<td> <?=$itemcategoria["nome"]?> </td>
+						
 						<td class="text-center">
 							<a class="btn btn-warning" 
-							href="categoria-atualiza.php">
+							href="categoria-atualiza.php?id=<?=$itemcategoria["id"]?>">
 							<i class="bi bi-pencil"></i> Atualizar
 							</a>
 						
 							<a class="btn btn-danger excluir" 
-							href="categoria-exclui.php">
+							href="categoria-exclui.php?id=<?=$itemcategoria["id"]?>">
 							<i class="bi bi-trash"></i> Excluir
 							</a>
 						</td>
 					</tr>
 
-				</tbody>                
+				</tbody>   
+				<?php }	?>             
 			</table>
 	    </div>
 		
 	</article>
 </div>
+
 
 
 <?php 
