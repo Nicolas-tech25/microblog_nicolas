@@ -2,7 +2,7 @@
 namespace Microblog;
 use PDO, Exception;
 
-class Categoria {
+final class Categoria {
     private int $id;
     private string $nome;
     private PDO $conexao;
@@ -92,7 +92,7 @@ class Categoria {
 
     public function setId(int $id): self
     {
-        $this->id = $id;
+        $this->id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
 
         return $this;
     }
@@ -104,7 +104,7 @@ class Categoria {
 
     public function setNome(string $nome): self
     {
-        $this->nome = $nome;
+        $this->nome = filter_var($nome, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
