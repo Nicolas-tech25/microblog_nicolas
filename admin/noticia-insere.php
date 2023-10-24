@@ -23,8 +23,21 @@ if(isset($_POST["inserir"])){
 	$noticia->categoria->setId($_POST['categoria']);
 
 	/* Sobre a imagem  */
+
+	//Capturar o arquivo/imagem
 	$imagem = $_FILES["imagem"];
-	Utilitarios::dump($imagem);
+
+	//Enviar para o servidor
+	$noticia->upload($imagem);
+
+	// capturar o nome/extensão e enviar para o banco de dados
+	$noticia->setImagem($imagem["name"]);
+
+
+	// Executar no banco
+	$noticia->inserir();
+
+	header("location:noticias.php");
 }
 ?>
 

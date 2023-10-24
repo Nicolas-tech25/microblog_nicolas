@@ -28,7 +28,7 @@ final class Noticia{
 
     /* Método crud */
     public function inserir():void{
-        $sql = "INSERT INTO noticias(titulo,texto,resumo,imagem,destaque,usuario_id,categoria_id) VALUES(:titulo, :texto, :resumo, :imagem, :destaque, :usuario_id, :categoria_id";
+        $sql = "INSERT INTO noticias(titulo,texto,resumo,imagem,destaque,usuario_id,categoria_id) VALUES(:titulo, :texto, :resumo, :imagem, :destaque, :usuario_id, :categoria_id)";
 
         try {
             $consulta = $this->conexao->prepare($sql);
