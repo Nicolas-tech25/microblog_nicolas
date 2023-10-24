@@ -13,6 +13,19 @@ final class Noticia{
     private string $termo; // será usado na busca
     private PDO $conexao;
 
+    /*  propriedades cujo tipo são associados a classes já existentes. Isso permitirá usar recursos destas classes á partir de Noticia. */
+    public Usuario $usuario;
+    public Categoria $categoria;
+
+
+    /* Método construct */
+    public function __construct(){
+        /* Ao criar um objeto noticia, aproveitamos para instanciar objetos de Usuario e Categoria */
+        $this->usuario = New Usuario;
+        $this->categoria = New Categoria;
+        $this->conexao = banco::conecta();
+    }
+
    
     /* Getters e Setters */
 
@@ -24,7 +37,7 @@ final class Noticia{
 
     public function setId(int $id): self
     {
-        $this->id = $id;
+        $this->id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
 
         return $this;
     }
@@ -36,7 +49,7 @@ final class Noticia{
 
     public function setData(string $data): self
     {
-        $this->data = $data;
+        $this->data = filter_var($data, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
@@ -49,7 +62,7 @@ final class Noticia{
 
     public function setTitulo(string $titulo): self
     {
-        $this->titulo = $titulo;
+        $this->titulo = filter_var($titulo, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
@@ -61,7 +74,7 @@ final class Noticia{
 
     public function setTexto(string $texto): self
     {
-        $this->texto = $texto;
+        $this->texto = filter_var($texto, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
@@ -73,7 +86,7 @@ final class Noticia{
 
     public function setResumo(string $resumo): self
     {
-        $this->resumo = $resumo;
+        $this->resumo = filter_var($resumo, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
@@ -85,7 +98,7 @@ final class Noticia{
 
     public function setImagem(string $imagem): self
     {
-        $this->imagem = $imagem;
+        $this->imagem = filter_var($imagem, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
@@ -97,7 +110,7 @@ final class Noticia{
 
     public function setDestaque(string $destaque): self
     {
-        $this->destaque = $destaque;
+        $this->destaque = filter_var($destaque, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }
@@ -109,7 +122,7 @@ final class Noticia{
 
     public function setTermo(string $termo): self
     {
-        $this->termo = $termo;
+        $this->termo = filter_var($termo, FILTER_SANITIZE_SPECIAL_CHARS);
 
         return $this;
     }

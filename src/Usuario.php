@@ -10,8 +10,7 @@ class Usuario {
     private string $tipo;
     private PDO $conexao;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->conexao = Banco::conecta();        
     }
 
