@@ -26,6 +26,54 @@ final class Noticia{
         $this->conexao = banco::conecta();
     }
 
+    /* Método crud */
+    public function inserir():void{
+        $sql = "INSERT INTO noticias(titulo,texto,resumo,imagem,destaque,usuario_id,categoria_id) VALUES(:titulo, :texto, :resumo, :imagem, :destaque, :usuario_id, :categoria_id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":titulo", $this->titulo,PDO::PARAM_STR);
+            $consulta->bindValue(":texto", $this->texto,PDO::PARAM_STR);
+            $consulta->bindValue(":resumo", $this->resumo,PDO::PARAM_STR);
+            $consulta->bindValue(":imagem", $this->imagem,PDO::PARAM_STR);
+            $consulta->bindValue(":destaque", $this->destaque,PDO::PARAM_STR);
+            
+            /* Aqui primeiro chamamos os getters de ID do usuario e de categoria para só depois associar os valores aos parametros da consulta SQL.
+            Isso é possivel graças a associação de classes */
+            $consulta->bindValue(":usuario_id", $this->usuario->getId(),PDO::PARAM_INT);
+            $consulta->bindValue(":categoria_id", $this->categoria->getId(),PDO::PARAM_INT);
+            $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro ao inserir usuário: ".$erro->getMessage());
+        }
+        
+    }
+
+    /* Método para upload de fotos */
+    public function upload(array $arquivo):void{
+        // Definindo os tipos válidos
+        $tiposValidos = [
+            "image/png", "image/jpeg", "image/gif", "image/svg+xml"
+        ];
+
+        // Verificando se o arquivo é compativel
+        if (!in_array($arquivo["type"], $tiposValidos)) {
+            // Alertamos o usuário e o fazemos voltar para o form.                  
+            die("<script> alert('Formato invalido!😡🤬'); history.back(); </script>");
+        }
+
+        // Acessando apenas o nome/extensão do arquivo
+        $nome = $arquivo["name"];
+
+        // Acessando dados de acesso/armazenamento temporário
+        $temporario = $arquivo["tmp_name"];
+
+        // definindo o local/pasta de destio das imagens no site
+        $pastaFinal = "../imagens/".$nome;
+
+        // Movemos/enviamos da área temporária para a final/destino
+        move_uploaded_file($temporario, $pastaFinal);
+    }
    
     /* Getters e Setters */
 
