@@ -26,7 +26,7 @@ final class Noticia{
         $this->conexao = banco::conecta();
     }
 
-    /* Método crud */
+    /* Método crud Iserir */
     public function inserir():void{
         $sql = "INSERT INTO noticias(titulo,texto,resumo,imagem,destaque,usuario_id,categoria_id) VALUES(:titulo, :texto, :resumo, :imagem, :destaque, :usuario_id, :categoria_id)";
 
@@ -48,6 +48,31 @@ final class Noticia{
         }
         
     }
+
+        /* Método ler */
+        public function listar():array {
+
+            if ( $this->usuario->getTipo() === "admin" ) {
+                $sql = "SELECT noticias.id,noticias.titulo, noticias.data,usuarios.nome AS Autor, noticias.destaque  FROM noticias INNER JOIN usuarios ON noticias.usuario_id = usuarios.id  ORDER BY data DESC";
+            } else {
+                $sql = "SELECT id, titulo, data, destaque FROM noticias WHERE usuario_id = :usuario_id ORDER BY data DESC";
+            }
+    
+            try {
+                $consulta = $this->conexao->prepare($sql);
+
+                if($this->usuario->getTipo() !== "admin"){
+                $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
+                }
+                $consulta->execute();
+                $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            } catch (Exception $erro) {
+                die("Erro ao carregar noticias: ".$erro->getMessage());
+            }
+    
+            return $resultado;
+        }
+    
 
     /* Método para upload de fotos */
     public function upload(array $arquivo):void{
@@ -75,6 +100,11 @@ final class Noticia{
         move_uploaded_file($temporario, $pastaFinal);
     }
    
+
+
+
+
+
     /* Getters e Setters */
 
 
