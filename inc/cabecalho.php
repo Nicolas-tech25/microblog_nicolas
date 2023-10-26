@@ -1,5 +1,10 @@
 <?php
- require_once "vendor/autoload.php"
+require_once "vendor/autoload.php";
+use Microblog\Noticia;
+
+$noticia = new Noticia;
+$listaDeCategorias = $noticia->categoria->listar();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
@@ -37,10 +42,11 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Categorias
               </a>
+
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="noticias-por-categoria.php">Ciência</a></li>
-                <li><a class="dropdown-item" href="noticias-por-categoria.php">Educação</a></li>
-                <li><a class="dropdown-item" href="noticias-por-categoria.php">Tecnologia</a></li>
+              <?php foreach($listaDeCategorias as $itemCategoria) {?>
+                <li><a class="dropdown-item" href="noticias-por-categoria.php?id = <?= $itemCategoria['id']?>"> <?= $itemCategoria['nome']?>  </a></li>
+              <?php } ?>
               </ul>
             </li>
             <li class="nav-item">
