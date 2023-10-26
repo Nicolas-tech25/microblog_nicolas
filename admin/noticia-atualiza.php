@@ -17,9 +17,26 @@ $dados = $noticia->listarUm();
 if (isset($_POST["atualizar"])) {
     $noticia->setTitulo($_POST["titulo"]);
     $noticia->setTexto($_POST["texto"]);
-    $noticia->setResumo($_POST["Resumo"]);
-    $noticia->setDestaque($_POST["Destaque"]);
+    $noticia->setResumo($_POST["resumo"]);
+    $noticia->setDestaque($_POST["destaque"]);
     $noticia->categoria->setId($_POST["categoria"]);
+
+    /* Lógica/algoritimo para atualizar a foto se necessário */
+
+    /* Seo campo imagem tiver vazio, então o usuario vai manter a versão antiga. Portanto vamos deixar a imagem já existente  */
+    if (empty($_FILES["imagem"] ["name"])) {
+        $noticia->setImagem(($_POST["imagem-existente"]));
+    } else {
+         /* Caso contrario cvamos pegar a referencia da nova imagem (nome e extensão) , fazer o upload do novo arquivo e enviar a referencia para o objeto usando settter*/
+
+         $noticia->upload($_FILES["imagem"]);
+         $noticia->setImagem($_FILES["imagem"]["name"]);
+    }
+    
+    $noticia->atualizar();
+    header("location:noticias.php");
+   
+
 
 }
 

@@ -98,6 +98,73 @@ final class Noticia{
             return $resultado;
         }
 
+    /* Método crud Atualizar */
+    public function atualizar():void{
+
+        if ( $this->usuario->getTipo() === "admin" ) {
+            $sql = "UPDATE noticias 
+            SET titulo = :titulo,
+            texto = :texto, 
+            resumo = :resumo, 
+            imagem = :imagem,
+            categoria_id = :categoria_id, 
+            destaque = :destaque WHERE id = :id";
+        } else {
+            $sql = "UPDATE noticias 
+            SET titulo = :titulo,
+            texto = :texto, 
+            resumo = :resumo, 
+            imagem = :imagem,
+            categoria_id = :categoria_id, 
+            destaque = :destaque WHERE id = :id
+            AND usuario_id = :usuario_id";
+        }
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id,PDO::PARAM_INT);
+            $consulta->bindValue(":titulo", $this->titulo,PDO::PARAM_STR);
+            $consulta->bindValue(":texto", $this->texto,PDO::PARAM_STR);
+            $consulta->bindValue(":resumo", $this->resumo,PDO::PARAM_STR);
+            $consulta->bindValue(":imagem", $this->imagem,PDO::PARAM_STR);
+            $consulta->bindValue(":destaque", $this->destaque,PDO::PARAM_STR);
+            $consulta->bindValue(":categoria_id", $this->categoria->getId(),PDO::PARAM_INT);
+            
+            if($this->usuario->getTipo() !== "admin"){
+                $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
+            }
+
+            $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro ao atualizar noticia: ".$erro->getMessage());
+        }
+        
+    }
+
+    /* Método crud Excluir */
+    public function excluir():void{
+
+        if ( $this->usuario->getTipo() === "admin" ) {
+            $sql = "DELETE FROM  noticias WHERE id = :id";
+        } else {
+            $sql = "DELETE noticias WHERE id = :id
+            AND usuario_id = :usuario_id";
+        }
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id,PDO::PARAM_INT);          
+            if($this->usuario->getTipo() !== "admin"){
+                $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
+            }
+
+            $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro ao deletar noticia: ".$erro->getMessage());
+        }
+        
+    }
+
     /* Método para upload de fotos */
     public function upload(array $arquivo):void{
         // Definindo os tipos válidos
@@ -124,6 +191,9 @@ final class Noticia{
         move_uploaded_file($temporario, $pastaFinal);
     }
    
+    
+   
+
 
 
 
