@@ -46,7 +46,7 @@ $listaDeCategorias = $noticia->categoria->listar();
 
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <?php foreach($listaDeCategorias as $itemCategoria) {?>
-                <li><a class="dropdown-item" href="noticias-por-categoria.php?id = <?= $itemCategoria['id']?>"> <?= $itemCategoria['nome']?>  </a></li>
+                <li><a class="dropdown-item" href="noticias-por-categoria.php?id=<?= $itemCategoria['id']?>"> <?= $itemCategoria['nome']?>  </a></li>
               <?php } ?>
               </ul>
             </li>
