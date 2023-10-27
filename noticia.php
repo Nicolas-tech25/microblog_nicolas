@@ -13,7 +13,7 @@ $dados = $noticia->listarDetalhes();
     <article class="col-12">
         <h2> <?=$dados["titulo"]?> </h2>
         <p class="font-weight-light">
-            <time><?=$dados["data"]?></time> - <span><?=$dados["autor"]?></span>
+            <time><?=Utilitarios::formataData($itemNoticia['data'])?></time> - <span><?=$dados["autor"]?></span>
         </p>
         <img src="imagens/<?=$dados["imagem"]?>" alt="" class="float-start pe-2 img-fluid">
         <p class="ajusta-texto"><?=$dados["texto"]?></p>

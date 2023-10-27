@@ -5,7 +5,8 @@ $noticia->setDestaque("sim");
 $destaques = $noticia->listarDestaques();
 ?>
 
-
+<h1>Notícias de destaque: </h1>
+<hr>
 <div class="row my-1 mx-md-n1">
 
     <?php foreach ($destaques as $destaque) { ?>    

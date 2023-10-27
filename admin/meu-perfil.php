@@ -1,7 +1,7 @@
 <?php 
 require_once "../inc/cabecalho-admin.php";
 use Microblog\Usuario;
-use Microblog\Utilitarios;
+
 
 $usuario = new Usuario;
 $usuario->setId($_SESSION["id"]);
@@ -13,18 +13,20 @@ if (isset($_POST["atualizar"])) {
 	$usuario->setNome($_POST['nome']);
     $usuario->setEmail($_POST['email']);
 	$usuario->setTipo($_SESSION['tipo']); // mantendo o tipo existente
+
+	if (empty($_POST['senha'])){
+		$usuario->setSenha($dados['senha']);
+	}else{
+		$usuario->setSenha(
+			$usuario->verificaSenha($_POST['senha'],$dados['senha'])
+		);
+	}
+	$usuario->atualizar();
+	$_SESSION["nome"] = $usuario->getNome();
+	header("location:index.php?perfil_atualizado");
 }
 
-if (empty($_POST['senha'])){
-	$usuario->setSenha($dados['senha']);
-}else{
-	$usuario->setSenha(
-		$usuario->verificaSenha($_POST['senha'],$dados['senha'])
-	);
-}
-$usuario->atualizar();
-$_SESSION["nome"] = $usuario->getNome();
-header("location:index.php?perfil_atualizado");
+
 ?>
 
 

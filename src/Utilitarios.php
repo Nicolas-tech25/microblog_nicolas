@@ -11,5 +11,10 @@ abstract class Utilitarios{
         return password_hash($senha, PASSWORD_DEFAULT);
 
     }
+
+    // 2023-10-27 10:56
+    public static function formataData(string $data):string {
+        return date("d/m/Y H:i",strtotime($data));
+    }
     
 }
